@@ -15,18 +15,38 @@
         <VM:MainWindowViewModel/>
     </Window.DataContext>
        
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Margin="10">
+    <Grid ColumnDefinitions="15*, 85*"
+          RowDefinitions="15*, 85*">
+        <StackPanel Grid.RowSpan="2"
+                    Background="Blue">
+            
+        </StackPanel>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Column="1"
+                    Background="Green">
             <Button Content="Start" Margin="5"/>
             <Button Content="Pause" Margin="5"/>
             <Button Content="Reset" Margin="5"/>
         </StackPanel>
         <lvc:CartesianChart Grid.Row="1"
+                            Grid.Column="1"
                                  LegendPosition="Right"
-                                 Margin="10"/>
+                                 Margin="10"
+                            DataContext="{Binding ChartVM}"
+                            
+                            XAxes="{Binding XAxes}"
+                            YAxes="{Binding YAxes}"
+                               >
+            <lvc:CartesianChart.Series>
+                <lvc:SeriesCollection>
+                    <lvc:XamlColumnSeries
+                        Values="{Binding Values.Elements}"
+                        IsVisibleAtLegend="False"
+                        PointMeasuredCommand="{Binding PointMeasuredCommand}"
+                        />            
+                </lvc:SeriesCollection>
+            </lvc:CartesianChart.Series>
+        </lvc:CartesianChart>
+                                     
         </Grid>
 </Window>
