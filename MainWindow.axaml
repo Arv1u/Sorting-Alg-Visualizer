@@ -11,10 +11,6 @@
         x:DataType="VM:MainWindowViewModel"
         Title="Sorting-Alg-Visualizer"
         >
-    <Window.DataContext>
-        <VM:MainWindowViewModel/>
-    </Window.DataContext>
-       
     <Grid ColumnDefinitions="15*, 85*"
           RowDefinitions="15*, 85*">
         <StackPanel Grid.RowSpan="2"
@@ -24,7 +20,7 @@
         <StackPanel Orientation="Horizontal"
                     Grid.Column="1"
                     Background="Green">
-            <Button Content="Start" Margin="5"/>
+            <Button Content="Start" Margin="5" Command="{Binding TestCommand}"/>
             <Button Content="Pause" Margin="5"/>
             <Button Content="Reset" Margin="5"/>
         </StackPanel>
@@ -33,17 +29,17 @@
                                  LegendPosition="Right"
                                  Margin="10"
                             DataContext="{Binding ChartVM}"
-                            
+                                    AutoUpdateEnabled="True"
                             XAxes="{Binding XAxes}"
                             YAxes="{Binding YAxes}"
-                               >
+                              x:Name="BarChart" >
             <lvc:CartesianChart.Series>
                 <lvc:SeriesCollection>
                     <lvc:XamlColumnSeries
-                        Values="{Binding Values.Elements}"
+                        Values="{Binding Values.Elements, UpdateSourceTrigger=PropertyChanged}"
                         IsVisibleAtLegend="False"
                         PointMeasuredCommand="{Binding PointMeasuredCommand}"
-                        />            
+                        />          
                 </lvc:SeriesCollection>
             </lvc:CartesianChart.Series>
         </lvc:CartesianChart>

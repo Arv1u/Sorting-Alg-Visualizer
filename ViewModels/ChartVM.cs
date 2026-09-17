@@ -11,10 +11,11 @@ using System.Dynamic;
 using System.Security;
 namespace Sorting_Alg_Visualizer.ViewModels;
 
-public partial class ChartVM
+public partial class ChartVM : PropertyChangedBase
 {
     public ActiveValue ActiveValue{ get;}
-    public int MyProperty { get; set; }
+    private SolidColorPaint Red = new(SKColors.Red);
+    private SolidColorPaint RLightBlue= new(SKColors.LightBlue);
     public SortSet Values { get; }
     public Axis[] XAxes { get; set; } = new Axis[]
     {
@@ -43,13 +44,13 @@ public partial class ChartVM
         if (point == null) return;
         if (point.Context.Visual is null) return;
 
-        if(point.Index == ActiveValue.Index)
+        if(point.Index == ActiveValue.Index && ActiveValue.IsVisible)
         {
-            point.Context.Visual.Fill = new SolidColorPaint(SKColors.Red);
+            point.Context.Visual.Fill = Red;
         }
         else
         {
-            point.Context.Visual.Fill = new SolidColorPaint(SKColors.LightBlue);
+            point.Context.Visual.Fill = RLightBlue;
         }
     }
 }
