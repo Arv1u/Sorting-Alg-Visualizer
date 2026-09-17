@@ -1,9 +1,32 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:avalonia="using:LiveChartsCore.SkiaSharpView.Avalonia"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
+        xmlns:local="using:Sorting_Alg_Visualizer"
+        xmlns:VM="using:Sorting_Alg_Visualizer.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Sorting_Alg_Visualizer.MainWindow"
-        Title="Sorting-Alg-Visualizer">
-    
+        x:DataType="VM:MainWindowViewModel"
+        Title="Sorting-Alg-Visualizer"
+        >
+    <Window.DataContext>
+        <VM:MainWindowViewModel/>
+    </Window.DataContext>
+       
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Margin="10">
+            <Button Content="Start" Margin="5"/>
+            <Button Content="Pause" Margin="5"/>
+            <Button Content="Reset" Margin="5"/>
+        </StackPanel>
+        <lvc:CartesianChart Grid.Row="1"
+                                 LegendPosition="Right"
+                                 Margin="10"/>
+        </Grid>
 </Window>
