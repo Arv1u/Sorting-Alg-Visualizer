@@ -21,6 +21,13 @@
 
   <ItemGroup>
     <Folder Include="Commands\" />
+    <Folder Include="UserControls\" />
     <Folder Include="Views\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="UserControls\PlayPauseButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
   </ItemGroup>
 </Project>

@@ -7,6 +7,6 @@ namespace Sorting_Alg_Visualizer.Util
     public class ActiveValue
     {
         public int Index { get; set; }
-        public bool IsVisible { get; set; }
+        public bool IsVisible { get; set; } = true;
     }
 }

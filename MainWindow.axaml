@@ -20,9 +20,9 @@
         <StackPanel Orientation="Horizontal"
                     Grid.Column="1"
                     Background="Green">
-            <Button Content="Start" Margin="5" Command="{Binding TestCommand}"/>
-            <Button Content="Pause" Margin="5"/>
-            <Button Content="Reset" Margin="5"/>
+            <Button Content="Start" Margin="5" Command="{Binding StartCommand}"/>
+            <Button Content="Pause" Command="{Binding PauseCommand}" Margin="5"/>
+            <Button Content="Reset" Command="{Binding ResetCommand}" Margin="5"/>
         </StackPanel>
         <lvc:CartesianChart Grid.Row="1"
                             Grid.Column="1"

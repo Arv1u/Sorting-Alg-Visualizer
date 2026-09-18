@@ -14,8 +14,8 @@ namespace Sorting_Alg_Visualizer.ViewModels;
 public partial class ChartVM : PropertyChangedBase
 {
     public ActiveValue ActiveValue{ get;}
-    private SolidColorPaint Red = new(SKColors.Red);
-    private SolidColorPaint RLightBlue= new(SKColors.LightBlue);
+    private SolidColorPaint Red = new SolidColorPaint(SKColors.Red);
+    private SolidColorPaint RLightBlue= new SolidColorPaint(SKColors.LightBlue);
     public SortSet Values { get; }
     public Axis[] XAxes { get; set; } = new Axis[]
     {
@@ -44,13 +44,14 @@ public partial class ChartVM : PropertyChangedBase
         if (point == null) return;
         if (point.Context.Visual is null) return;
 
-        if(point.Index == ActiveValue.Index && ActiveValue.IsVisible)
+        if (point.Index == ActiveValue.Index)
         {
-            point.Context.Visual.Fill = Red;
+            point.Context.Visual.Fill = new SolidColorPaint(SKColors.Red);
         }
         else
         {
-            point.Context.Visual.Fill = RLightBlue;
+            point.Context.Visual.Fill = new SolidColorPaint(SKColors.LightBlue);
+
         }
     }
 }
