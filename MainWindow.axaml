@@ -6,6 +6,7 @@
         xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
         xmlns:local="using:Sorting_Alg_Visualizer"
         xmlns:VM="using:Sorting_Alg_Visualizer.ViewModels"
+        xmlns:conv="Sorting_Alg_Visualizer.Converters"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Sorting_Alg_Visualizer.MainWindow"
         x:DataType="VM:MainWindowViewModel"
@@ -23,22 +24,44 @@
             <Button Content="Start" Margin="5" Command="{Binding StartCommand}"/>
             <Button Content="Pause" Command="{Binding PauseCommand}" Margin="5"/>
             <Button Content="Reset" Command="{Binding ResetCommand}" Margin="5"/>
-            <Slider Minimum="1" Maximum="30" Value="{Binding StepsPerSecond}" MinWidth="300">
-                
+
+            <Slider Minimum="1" 
+                    Maximum="30" 
+                    Value="{Binding StepsPerSecond}" 
+                    MinWidth="300">
             </Slider> 
-            <TextBlock Text="{Binding StepsPerSecond}"></TextBlock>
-            <NumericUpDown Minimum="1" Maximum="1000" Value="{Binding SortLength, Mode=TwoWay}" FormatString="0"></NumericUpDown>
+            <TextBlock Text="{Binding StepsPerSecond}"/>
+            <NumericUpDown Minimum="1" 
+                           Maximum="1000" 
+                           Value="{Binding SortLength, 
+                           Mode=TwoWay}" 
+                           FormatString="0"/>
         </StackPanel>
+        <ListBox ItemsSource="{Binding Algorithms}"
+                 SelectedItem="{Binding SelectedAlgorithm, Mode=TwoWay}"
+                 SelectionMode="AlwaysSelected"
+                 IsEnabled="{Binding !IsRunning}"
+                 Grid.RowSpan="2">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border >
+                        
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}"/>
+                    </StackPanel>
+                    </Border>
+
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <lvc:CartesianChart Grid.Row="1"
                             Grid.Column="1"
-                                 LegendPosition="Right"
-                                 Margin="10"
+                            Margin="10"
                             DataContext="{Binding ChartVM}"
-                                    AutoUpdateEnabled="True"
+                            AutoUpdateEnabled="True"
                             XAxes="{Binding XAxes}"
                             YAxes="{Binding YAxes}"
-                              x:Name="BarChart" >
-            
+                            x:Name="BarChart">
             <lvc:CartesianChart.Series>
                 <lvc:SeriesCollection>
                     <lvc:XamlColumnSeries
@@ -49,6 +72,5 @@
                 </lvc:SeriesCollection>
             </lvc:CartesianChart.Series>
         </lvc:CartesianChart>
-                                     
         </Grid>
 </Window>

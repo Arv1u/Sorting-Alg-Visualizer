@@ -17,8 +17,8 @@ namespace Sorting_Alg_Visualizer.Models
         }
         public void FillElements()
         {
-            Random rand = new Random();
             Elements.Clear();
+            Random rand = new Random();
             for (int i = 0; i < totalElements; i++)
             {
                 Elements.Add(i + 1);

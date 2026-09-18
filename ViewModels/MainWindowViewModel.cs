@@ -10,6 +10,8 @@ using Sorting_Alg_Visualizer.ViewModels;
 using LiveChartsCore.Kernel;
 using Avalonia.Threading;
 using System.Threading;
+using System.Collections.ObjectModel;
+using Sorting_Alg_Visualizer.Algorithms;
 namespace Sorting_Alg_Visualizer.ViewModels
 {
     public class MainWindowViewModel : PropertyChangedBase
@@ -19,7 +21,6 @@ namespace Sorting_Alg_Visualizer.ViewModels
         public RelayCommand StartCommand { get; }
         public RelayCommand PauseCommand { get; }
         public RelayCommand ResetCommand { get; }
-        private static int defaultSetLength = 100;
         public ChartVM ChartVM { get; set; }
         private decimal sortLength;
         public decimal SortLength
@@ -63,10 +64,24 @@ namespace Sorting_Alg_Visualizer.ViewModels
                 OnPropertyChanged(nameof(IsRunning));
             }
         }
+        public ObservableCollection<IAlgorithm> Algorithms { get; set; } = new();
+        private IAlgorithm selectedAlgorithm;
+        public IAlgorithm SelectedAlgorithm
+        {
+            get
+            {
+                return selectedAlgorithm;
+            }
+            set
+            {
+                selectedAlgorithm = value;
+                OnPropertyChanged(nameof(SelectedAlgorithm));
+            }
+        }
+        private bool isReset = true;
         public MainWindowViewModel(CartesianChart barchart)
         {
             BarChart = barchart;
-
 
             StartCommand = new(_ => StartAlgorithm());
             PauseCommand = new(_ => PauseAlgorithm());
@@ -82,10 +97,11 @@ namespace Sorting_Alg_Visualizer.ViewModels
             SortLength = 100;
             CreateNewChart((int)SortLength);
 
+            SetupAlgorithms();
         }
         private void RunTimestep(object? sender, EventArgs e)
         {
-            ActiveValue.Index++;
+            SelectedAlgorithm.Step();
             UpdateChart();
         }
         private void UpdateChart()
@@ -98,6 +114,10 @@ namespace Sorting_Alg_Visualizer.ViewModels
         }
         private void StartAlgorithm()
         {
+            if (isReset)
+            {
+                SelectedAlgorithm.Setup();
+            }
             IsRunning = true;
         }
         private void PauseAlgorithm()
@@ -124,6 +144,11 @@ namespace Sorting_Alg_Visualizer.ViewModels
         private void CreateNewChart(int length)
         {
             ChartVM = new((int)length, ActiveValue);
+        }
+
+        private void SetupAlgorithms()
+        {
+            Algorithms.Add(new BubbleSort());
         }
     }
 }
