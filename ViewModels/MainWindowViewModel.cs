@@ -9,6 +9,7 @@ using Sorting_Alg_Visualizer.Util;
 using Sorting_Alg_Visualizer.ViewModels;
 using LiveChartsCore.Kernel;
 using Avalonia.Threading;
+using System.Threading;
 namespace Sorting_Alg_Visualizer.ViewModels
 {
     public class MainWindowViewModel : PropertyChangedBase
@@ -20,6 +21,19 @@ namespace Sorting_Alg_Visualizer.ViewModels
         public RelayCommand ResetCommand { get; }
         private static int defaultSetLength = 100;
         public ChartVM ChartVM { get; set; }
+        private decimal sortLength;
+        public decimal SortLength
+        {
+            get
+            {
+                return sortLength;
+            }
+            set
+            {
+                sortLength = value;
+                OnPropertyChanged(nameof(SortLength));
+            }
+        }
         private int stepsPerSecond;
         private readonly DispatcherTimer stepsTimer;
         public int StepsPerSecond
@@ -31,6 +45,7 @@ namespace Sorting_Alg_Visualizer.ViewModels
             set
             {
                 stepsPerSecond = value;
+                UpdateTimerSpeed(value);
                 OnPropertyChanged(nameof(StepsPerSecond));
             }
         }
@@ -52,12 +67,10 @@ namespace Sorting_Alg_Visualizer.ViewModels
         {
             BarChart = barchart;
 
-            ChartVM = new(new SortSet(defaultSetLength), ActiveValue);
 
             StartCommand = new(_ => StartAlgorithm());
             PauseCommand = new(_ => PauseAlgorithm());
             ResetCommand = new(_ => ResetAlgorithm());
-
 
             stepsTimer = new DispatcherTimer
             {
@@ -65,6 +78,10 @@ namespace Sorting_Alg_Visualizer.ViewModels
                 IsEnabled = false
             };
             stepsTimer.Tick += RunTimestep;
+            StepsPerSecond = 1;
+            SortLength = 100;
+            CreateNewChart((int)SortLength);
+
         }
         private void RunTimestep(object? sender, EventArgs e)
         {
@@ -91,11 +108,22 @@ namespace Sorting_Alg_Visualizer.ViewModels
         private void ResetAlgorithm()
         {
             IsRunning = false;
-
+            ActiveValue.Index = 0;
+            ChartVM.Values.totalElements = (int)SortLength;
+            ChartVM.Values.FillElements();
+            UpdateChart();
         }
         private void UpdateTimerRunning(bool isRunning)
         {
             stepsTimer.IsEnabled = isRunning;
+        }
+        private void UpdateTimerSpeed(int stepsPerSecond)
+        {
+            stepsTimer.Interval = TimeSpan.FromMilliseconds(1000.0 / stepsPerSecond);
+        }
+        private void CreateNewChart(int length)
+        {
+            ChartVM = new((int)length, ActiveValue);
         }
     }
 }

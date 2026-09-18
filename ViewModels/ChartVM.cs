@@ -8,6 +8,7 @@ using Sorting_Alg_Visualizer.Models;
 using Sorting_Alg_Visualizer.MVVM;
 using Sorting_Alg_Visualizer.Util;
 using System.Dynamic;
+using System.Runtime.CompilerServices;
 using System.Security;
 namespace Sorting_Alg_Visualizer.ViewModels;
 
@@ -16,7 +17,7 @@ public partial class ChartVM : PropertyChangedBase
     public ActiveValue ActiveValue{ get;}
     private SolidColorPaint Red = new SolidColorPaint(SKColors.Red);
     private SolidColorPaint RLightBlue= new SolidColorPaint(SKColors.LightBlue);
-    public SortSet Values { get; }
+    public SortSet Values { get; set; }
     public Axis[] XAxes { get; set; } = new Axis[]
     {
         new Axis
@@ -31,13 +32,13 @@ public partial class ChartVM : PropertyChangedBase
             IsVisible = false
         }
     };
-    public ChartVM(SortSet set, ActiveValue activeValue)
+    public ChartVM(int length, ActiveValue activeValue)
     {
-        this.Values = set;
+        this.Values = new SortSet(length);
         this.ActiveValue = activeValue;
         PointMeasuredCommand = new RelayCommand(point => OnPointMeasured((ChartPoint)point));
     }
-    public RelayCommand PointMeasuredCommand{ get; }
+    public RelayCommand PointMeasuredCommand{ get; set; }
 
     private void OnPointMeasured(ChartPoint point)
     {
@@ -53,5 +54,12 @@ public partial class ChartVM : PropertyChangedBase
             point.Context.Visual.Fill = new SolidColorPaint(SKColors.LightBlue);
 
         }
+    }
+    public void NewSortSet(int length)
+    {
+        Values = new(10);
+
+        PointMeasuredCommand = new RelayCommand(point => OnPointMeasured((ChartPoint)point));
+
     }
 }

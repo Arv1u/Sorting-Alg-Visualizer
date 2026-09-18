@@ -23,6 +23,11 @@
             <Button Content="Start" Margin="5" Command="{Binding StartCommand}"/>
             <Button Content="Pause" Command="{Binding PauseCommand}" Margin="5"/>
             <Button Content="Reset" Command="{Binding ResetCommand}" Margin="5"/>
+            <Slider Minimum="1" Maximum="30" Value="{Binding StepsPerSecond}" MinWidth="300">
+                
+            </Slider> 
+            <TextBlock Text="{Binding StepsPerSecond}"></TextBlock>
+            <NumericUpDown Minimum="1" Maximum="1000" Value="{Binding SortLength, Mode=TwoWay}" FormatString="0"></NumericUpDown>
         </StackPanel>
         <lvc:CartesianChart Grid.Row="1"
                             Grid.Column="1"
@@ -33,10 +38,11 @@
                             XAxes="{Binding XAxes}"
                             YAxes="{Binding YAxes}"
                               x:Name="BarChart" >
+            
             <lvc:CartesianChart.Series>
                 <lvc:SeriesCollection>
                     <lvc:XamlColumnSeries
-                        Values="{Binding Values.Elements, UpdateSourceTrigger=PropertyChanged}"
+                        Values="{Binding Values.Elements, Mode=TwoWay}"
                         IsVisibleAtLegend="False"
                         PointMeasuredCommand="{Binding PointMeasuredCommand}"
                         />          
