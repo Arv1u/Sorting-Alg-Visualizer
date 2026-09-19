@@ -16,41 +16,59 @@
           RowDefinitions="15*, 85*">
         <StackPanel Grid.RowSpan="2"
                     Background="Blue">
-            
         </StackPanel>
         <StackPanel Orientation="Horizontal"
                     Grid.Column="1"
-                    Background="Green">
+                    >
             <Button Content="Start" Margin="5" Command="{Binding StartCommand}"/>
             <Button Content="Pause" Command="{Binding PauseCommand}" Margin="5"/>
             <Button Content="Reset" Command="{Binding ResetCommand}" Margin="5"/>
-
+            <StackPanel Margin="10 10 10 10">
+             <TextBlock Text="Steps Per Second"></TextBlock>   
             <Slider Minimum="1" 
-                    Maximum="30" 
+                    Maximum="1000" 
                     Value="{Binding StepsPerSecond}" 
-                    MinWidth="300">
+                    MinWidth="300"
+                    VerticalAlignment="Center">
             </Slider> 
-            <TextBlock Text="{Binding StepsPerSecond}"/>
+            </StackPanel>
+            <TextBlock Text="{Binding StepsPerSecond}"
+                       VerticalAlignment="Center"
+                       Margin="20"
+                       MinWidth="100"
+                       />
             <NumericUpDown Minimum="1" 
-                           Maximum="1000" 
+                           Maximum="1000"
+                           Margin="20"
                            Value="{Binding SortLength, 
                            Mode=TwoWay}" 
-                           FormatString="0"/>
+                           FormatString="0"
+                           HorizontalContentAlignment="Center"
+                           VerticalContentAlignment="Center"
+                           VerticalAlignment="Center"
+                           MinWidth="150"/>
         </StackPanel>
         <ListBox ItemsSource="{Binding Algorithms}"
                  SelectedItem="{Binding SelectedAlgorithm, Mode=TwoWay}"
                  SelectionMode="AlwaysSelected"
                  IsEnabled="{Binding !IsRunning}"
                  Grid.RowSpan="2">
+           <ListBox.Styles>
+               <Style Selector="ListBoxItem">
+                   <Setter  Property="Margin" Value="8"></Setter>
+                   <Setter  Property="BorderBrush" Value="black"></Setter>
+                   <Setter  Property="BorderThickness" Value="2"></Setter>
+                   <Setter Property="CornerRadius" Value="11"></Setter>
+               </Style>
+
+           </ListBox.Styles>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border >
-                        
-                    <StackPanel>
+                    
+                    <StackPanel >
                         <TextBlock Text="{Binding Name}"/>
                     </StackPanel>
-                    </Border>
-
+                  
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
@@ -61,7 +79,8 @@
                             AutoUpdateEnabled="True"
                             XAxes="{Binding XAxes}"
                             YAxes="{Binding YAxes}"
-                            x:Name="BarChart">
+                            x:Name="BarChart"
+                            AnimationsSpeed="0">
             <lvc:CartesianChart.Series>
                 <lvc:SeriesCollection>
                     <lvc:XamlColumnSeries

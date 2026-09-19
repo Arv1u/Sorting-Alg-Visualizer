@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using LiveChartsCore;
+﻿using Avalonia.Threading;
+using LiveChartsCore.Kernel;
 using LiveChartsCore.SkiaSharpView.Avalonia;
-using Sorting_Alg_Visualizer.Models;
+using Sorting_Alg_Visualizer.Algorithms;
 using Sorting_Alg_Visualizer.MVVM;
 using Sorting_Alg_Visualizer.Util;
-using Sorting_Alg_Visualizer.ViewModels;
-using LiveChartsCore.Kernel;
-using Avalonia.Threading;
-using System.Threading;
+using System;
 using System.Collections.ObjectModel;
-using Sorting_Alg_Visualizer.Algorithms;
 namespace Sorting_Alg_Visualizer.ViewModels
 {
     public class MainWindowViewModel : PropertyChangedBase
@@ -50,6 +44,19 @@ namespace Sorting_Alg_Visualizer.ViewModels
                 OnPropertyChanged(nameof(StepsPerSecond));
             }
         }
+        private IAlgorithm selectedAlgorithm;
+        public IAlgorithm SelectedAlgorithm
+        {
+            get
+            {
+                return selectedAlgorithm;
+            }
+            set
+            {
+                selectedAlgorithm = value;
+                OnPropertyChanged(nameof(SelectedAlgorithm));
+            }
+        }
         private bool isRunning;
         public bool IsRunning
         {
@@ -65,23 +72,11 @@ namespace Sorting_Alg_Visualizer.ViewModels
             }
         }
         public ObservableCollection<IAlgorithm> Algorithms { get; set; } = new();
-        private IAlgorithm selectedAlgorithm;
-        public IAlgorithm SelectedAlgorithm
-        {
-            get
-            {
-                return selectedAlgorithm;
-            }
-            set
-            {
-                selectedAlgorithm = value;
-                OnPropertyChanged(nameof(SelectedAlgorithm));
-            }
-        }
         private bool isReset = true;
         public MainWindowViewModel(CartesianChart barchart)
         {
             BarChart = barchart;
+            ChartVM = new((int)10, ActiveValue);
 
             StartCommand = new(_ => StartAlgorithm());
             PauseCommand = new(_ => PauseAlgorithm());
@@ -94,14 +89,17 @@ namespace Sorting_Alg_Visualizer.ViewModels
             };
             stepsTimer.Tick += RunTimestep;
             StepsPerSecond = 1;
-            SortLength = 100;
+            SortLength = 10;
             CreateNewChart((int)SortLength);
-
+            ActiveValue.Index = 0;
             SetupAlgorithms();
         }
         private void RunTimestep(object? sender, EventArgs e)
         {
-            SelectedAlgorithm.Step();
+            if (SelectedAlgorithm.Step(ChartVM.Values.Elements, ActiveValue))
+            {
+                IsRunning = false;
+            }
             UpdateChart();
         }
         private void UpdateChart()
@@ -116,7 +114,8 @@ namespace Sorting_Alg_Visualizer.ViewModels
         {
             if (isReset)
             {
-                SelectedAlgorithm.Setup();
+                SelectedAlgorithm.Setup(ChartVM.Values.Elements);
+                isReset = false;
             }
             IsRunning = true;
         }
@@ -128,9 +127,11 @@ namespace Sorting_Alg_Visualizer.ViewModels
         private void ResetAlgorithm()
         {
             IsRunning = false;
+            isReset = true;
             ActiveValue.Index = 0;
             ChartVM.Values.totalElements = (int)SortLength;
             ChartVM.Values.FillElements();
+            SelectedAlgorithm.Reset();
             UpdateChart();
         }
         private void UpdateTimerRunning(bool isRunning)
@@ -143,12 +144,13 @@ namespace Sorting_Alg_Visualizer.ViewModels
         }
         private void CreateNewChart(int length)
         {
-            ChartVM = new((int)length, ActiveValue);
         }
 
         private void SetupAlgorithms()
         {
             Algorithms.Add(new BubbleSort());
+            Algorithms.Add(new SelectionSort());
+
         }
     }
 }

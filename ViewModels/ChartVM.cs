@@ -1,15 +1,10 @@
-﻿using LiveChartsCore;
-using LiveChartsCore.Kernel;
+﻿using LiveChartsCore.Kernel;
 using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
 using Sorting_Alg_Visualizer.Models;
 using Sorting_Alg_Visualizer.MVVM;
 using Sorting_Alg_Visualizer.Util;
-using System.Dynamic;
-using System.Runtime.CompilerServices;
-using System.Security;
 namespace Sorting_Alg_Visualizer.ViewModels;
 
 public partial class ChartVM : PropertyChangedBase
