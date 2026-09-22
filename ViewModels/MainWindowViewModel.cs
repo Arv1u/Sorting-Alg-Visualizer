@@ -96,9 +96,10 @@ namespace Sorting_Alg_Visualizer.ViewModels
         }
         private void RunTimestep(object? sender, EventArgs e)
         {
-            if (SelectedAlgorithm.Step(ChartVM.Values.Elements, ActiveValue))
+            if (SelectedAlgorithm.Step(ChartVM.Values.Elements, ActiveValue)&&IsRunning)
             {
                 IsRunning = false;
+                isReset = true;
             }
             UpdateChart();
         }
@@ -112,9 +113,11 @@ namespace Sorting_Alg_Visualizer.ViewModels
         }
         private void StartAlgorithm()
         {
+
             if (isReset)
             {
                 SelectedAlgorithm.Setup(ChartVM.Values.Elements);
+                ActiveValue.Index = 0;
                 isReset = false;
             }
             IsRunning = true;

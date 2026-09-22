@@ -23,8 +23,15 @@
             <Button Content="Start" Margin="5" Command="{Binding StartCommand}"/>
             <Button Content="Pause" Command="{Binding PauseCommand}" Margin="5"/>
             <Button Content="Reset" Command="{Binding ResetCommand}" Margin="5"/>
-            <StackPanel Margin="10 10 10 10">
-             <TextBlock Text="Steps Per Second"></TextBlock>   
+            <StackPanel VerticalAlignment="Center" Margin="10 10 10 10">
+            <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Steps Per Second:"></TextBlock>   
+            <TextBlock Text="{Binding StepsPerSecond}"
+                       VerticalAlignment="Center"
+                       Margin="5 0 0 0"
+                       MinWidth="100"
+                       />
+            </StackPanel>
             <Slider Minimum="1" 
                     Maximum="1000" 
                     Value="{Binding StepsPerSecond}" 
@@ -32,11 +39,6 @@
                     VerticalAlignment="Center">
             </Slider> 
             </StackPanel>
-            <TextBlock Text="{Binding StepsPerSecond}"
-                       VerticalAlignment="Center"
-                       Margin="20"
-                       MinWidth="100"
-                       />
             <NumericUpDown Minimum="1" 
                            Maximum="1000"
                            Margin="20"

@@ -23,9 +23,9 @@ namespace Sorting_Alg_Visualizer.Algorithms
 
         public void Setup(ObservableCollection<int> sortSet)
         {
-            minIndex = sortSet[i];
-            j = 1;
             i = 0;
+            j = 1;
+            minIndex = 0;
         }
 
         public bool Step(ObservableCollection<int> sortSet, ActiveValue activeValue)

@@ -20,52 +20,51 @@ namespace Sorting_Alg_Visualizer.Algorithms
         }
         public void Setup(ObservableCollection<int> sortSet)
         {
+            index = 0;
+            streak = 0;
         }
 
-        public bool Step(ObservableCollection<int> sortSet,ActiveValue activeValue)
+        public bool Step(ObservableCollection<int> sortSet, ActiveValue activeValue)
         {
-            if(streak == sortSet.Count - 1)
+            if (sortSet.Count < 2)
+                return false;
+            if(streak >= sortSet.Count - 1)
             {
+                activeValue.Index = -1;
                 return true;
             }
-            if(activeValue.Index == sortSet.Count - 1)
+            if(index > sortSet.Count - 2)
+            {
+                activeValue.Index = -1;
+                return true;
+            }
+
+            if (activeValue.Index > sortSet.Count - 2 - index)
             {
                 activeValue.Index = 0;
+                streak = 0;
                 index++;
-                Debug.WriteLine("Reset");
                 return false;
             }
+
             if (sortSet[activeValue.Index] > sortSet[activeValue.Index + 1])
             {
                 temp = sortSet[activeValue.Index + 1];
                 sortSet[activeValue.Index + 1] = sortSet[activeValue.Index];
                 sortSet[activeValue.Index] = temp;
-                streak = 0;
-                Debug.WriteLine("Swapped");
             }
             else
-            { 
+            {
                 streak++;
             }
-            if (activeValue.Index == sortSet.Count - 1 - index)
-            {
-                activeValue.Index = 0;
-                index++;
-                Debug.WriteLine("Reset");
-                streak = 0;
-                return false;
-            }
-            Debug.WriteLine("--------------");
-            Debug.WriteLine("Streak: " + streak);
-            Debug.WriteLine("Index: " + index);
-            Debug.WriteLine("--------------");
+
             activeValue.Index++;
+
             return false;
-        } 
+        }
         public void Reset()
         {
             index = 0;
-            streak = 0;
             temp = 0;
         }
     }
