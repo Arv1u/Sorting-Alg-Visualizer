@@ -153,6 +153,7 @@ namespace Sorting_Alg_Visualizer.ViewModels
         {
             Algorithms.Add(new BubbleSort());
             Algorithms.Add(new SelectionSort());
+            Algorithms.Add(new InsertionSort());
 
         }
     }
