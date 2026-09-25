@@ -12,24 +12,24 @@ public partial class ChartVM : PropertyChangedBase
     public ActiveValue ActiveValue{ get;}
 
     public SortSet Values { get; set; }
-    public Axis[] XAxes { get; set; } = new Axis[]
-    {
+    public Axis[] XAxes { get; set; } =
+    [
         new Axis
         {
             IsVisible = false
         }
-    };
-    public Axis[] YAxes { get; set; } = new Axis[]
-    {
+    ];
+    public Axis[] YAxes { get; set; } = 
+    [
         new Axis
         {
             IsVisible = false
         }
-    };
+    ];
     public ChartVM(int length, ActiveValue activeValue)
     {
-        this.Values = new SortSet(length);
-        this.ActiveValue = activeValue;
+        Values = new SortSet(length);
+        ActiveValue = activeValue;
         PointMeasuredCommand = new RelayCommand(point => OnPointMeasured((ChartPoint)point));
     }
     public RelayCommand PointMeasuredCommand{ get; set; }

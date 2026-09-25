@@ -1,25 +1,23 @@
-﻿using Avalonia.Controls.Shapes;
-using Sorting_Alg_Visualizer.Util;
-using System;
-using System.Collections.Generic;
+﻿using Sorting_Alg_Visualizer.Util;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
 
 namespace Sorting_Alg_Visualizer.Algorithms
 {
     public class InsertionSort : IAlgorithm
     {
         public string Name { get; set; } = "Insertion Sort";
-        private int j,i;
+        private int j,i,key;
+        bool swapped = true;
 
         public void Reset()
         {
+            i = 0;
+            swapped = true;
         }
 
         public void Setup(ObservableCollection<int> sortSet)
         {
-            i = 0;
         }
 
         public bool Step(ObservableCollection<int> sortSet, ActiveValue activeValue)
@@ -28,19 +26,30 @@ namespace Sorting_Alg_Visualizer.Algorithms
             {
                 return true;
             }
-
+            if (swapped)
+            {
                 int key = sortSet[i];
                 int j = i - 1;
-            if ( j>= 0 && sortSet[j] > key)
+                activeValue.Index = j;
+
+            }
+
+
+            if(j >= 0 && sortSet[j] > key)
             {
                 sortSet[j + 1] = sortSet[j];
                 j = j - 1;
                 activeValue.Index = j;
             }
+            else
+            {
+                activeValue.Index = j;
 
-            sortSet[j + 1] = key;
-            i++;
-            
+                sortSet[j + 1] = key;
+                i++;
+                swapped = true;
+            }
+
             return false;
         }
     }
