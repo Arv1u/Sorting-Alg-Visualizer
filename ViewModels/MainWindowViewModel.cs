@@ -16,34 +16,29 @@ namespace Sorting_Alg_Visualizer.ViewModels
         public RelayCommand PauseCommand { get; }
         public RelayCommand ResetCommand { get; }
         public ChartVM ChartVM { get; set; }
-        private decimal sortLength;
+        private static int sortLengthDefault = 10;
         public decimal SortLength
         {
-            get
-            {
-                return sortLength;
-            }
+            get;
             set
             {
-                sortLength = value;
+                field = value;
                 OnPropertyChanged(nameof(SortLength));
             }
-        }
-        private int stepsPerSecond;
-        private readonly DispatcherTimer stepsTimer;
+        } = sortLengthDefault;
+
+        private DispatcherTimer stepsTimer;
+        private static int stepsPerSecondDefault = 1;
         public int StepsPerSecond
         {
-            get
-            {
-                return stepsPerSecond;
-            }
+            get;
             set
             {
-                stepsPerSecond = value;
+                field = value;
                 UpdateTimerSpeed(value);
                 OnPropertyChanged(nameof(StepsPerSecond));
             }
-        }
+        } = stepsPerSecondDefault;
         private IAlgorithm selectedAlgorithm;
         public IAlgorithm SelectedAlgorithm
         {
@@ -73,6 +68,7 @@ namespace Sorting_Alg_Visualizer.ViewModels
         }
         public ObservableCollection<IAlgorithm> Algorithms { get; set; } = new();
         private bool isReset = true;
+
         public MainWindowViewModel(CartesianChart barchart)
         {
             BarChart = barchart;
@@ -82,17 +78,21 @@ namespace Sorting_Alg_Visualizer.ViewModels
             PauseCommand = new(_ => PauseAlgorithm());
             ResetCommand = new(_ => ResetAlgorithm());
 
+            SetupTimer();
+            StepsPerSecond = 1;
+            SortLength = 10;
+            CreateNewChart((int)SortLength);
+            ActiveValue.Index = 0;
+            SetupAlgorithms();
+        }
+        private void SetupTimer()
+        {
             stepsTimer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromSeconds(1),
                 IsEnabled = false
             };
             stepsTimer.Tick += RunTimestep;
-            StepsPerSecond = 1;
-            SortLength = 10;
-            CreateNewChart((int)SortLength);
-            ActiveValue.Index = 0;
-            SetupAlgorithms();
         }
         private void RunTimestep(object? sender, EventArgs e)
         {
