@@ -50,6 +50,11 @@ namespace Sorting_Alg_Visualizer.ViewModels
             {
                 selectedAlgorithm = value;
                 OnPropertyChanged(nameof(SelectedAlgorithm));
+                if (isReset)
+                {
+                    ResetAlgorithm();
+                    isReset = false;
+                }
             }
         }
         private bool isRunning;
@@ -155,7 +160,6 @@ namespace Sorting_Alg_Visualizer.ViewModels
             Algorithms.Add(new SelectionSort());
             Algorithms.Add(new InsertionSort());
             SelectedAlgorithm = Algorithms[0];
-
         }
     }
 }
