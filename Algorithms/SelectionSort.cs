@@ -40,6 +40,7 @@ namespace Sorting_Alg_Visualizer.Algorithms
                 temp = sortSet[i];
                 sortSet[i] = sortSet[minIndex];
                 sortSet[minIndex] = temp;
+
                 i++;
                 activeValue.Index = i;
                 minIndex = i;
