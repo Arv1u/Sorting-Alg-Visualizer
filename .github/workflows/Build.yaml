@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Checkout
@@ -35,11 +35,10 @@ jobs:
           -p:IncludeNativeLibrariesForSelfExtract=true
           -o publish
 
-          - name: Compress ZIP
-            run: |
-              cd publish
-              zip -r ../Sorting-Alg-Visualizer-win-x64.zip .
-            shell: bash
+      - name: Create ZIP
+        run: |
+          zip -r ../Sorting-Alg-Visualizer-win-x64.zip .
+        shell: bash
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
