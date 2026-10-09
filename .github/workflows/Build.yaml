@@ -35,10 +35,11 @@ jobs:
           -p:IncludeNativeLibrariesForSelfExtract=true
           -o publish
 
-      - name: Create ZIP
-        shell: pwsh
-        run: |
-          Compress-Archive -Path publish/* -DestinationPath Sorting-Alg-Visualizer-win-x64.zip
+          - name: Compress ZIP
+            run: |
+              cd publish
+              zip -r ../Sorting-Alg-Visualizer-win-x64.zip .
+            shell: bash
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
