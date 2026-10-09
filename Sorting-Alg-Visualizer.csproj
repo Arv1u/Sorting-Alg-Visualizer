@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <RootNamespace>Sorting_Alg_Visualizer</RootNamespace>
     <OutputType>WinExe</OutputType>
@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include=".gitea\workflows\Build.yaml" />
     <None Include=".github\workflows\Build.yaml" />
   </ItemGroup>
 
