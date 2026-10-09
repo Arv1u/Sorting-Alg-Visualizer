@@ -26,7 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include=".gitea\workflows\Build.yaml" />
     <None Include=".github\workflows\Build.yaml" />
   </ItemGroup>
 
