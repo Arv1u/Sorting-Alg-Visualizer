@@ -1,34 +1,29 @@
 ﻿using Sorting_Alg_Visualizer.Util;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 
 namespace Sorting_Alg_Visualizer.Algorithms
 {
-    public class SelectionSort : IAlgorithm
+    public class SelectionSort : Algorithm
     {
-        public string Name { get; set; }
-        private int minIndex, i, temp;
-        private int j = 1;
+        private int minIndex, i;
         public SelectionSort()
         {
             Name = "Selectionsort";
         }
-        public void Reset()
-        {
-            j = 1;
-            i = 0;
-        }
-
-        public void Setup(ObservableCollection<int> sortSet)
+        public override void Reset()
         {
             i = 0;
-            j = 1;
             minIndex = 0;
         }
 
-        public bool Step(ObservableCollection<int> sortSet, ActiveValue activeValue)
+
+        public override void Setup(ObservableCollection<int> sortSet)
+        {
+            i = 0;
+            minIndex = 0;
+        }
+
+        public override bool Step(ObservableCollection<int> sortSet, ActiveValue activeValue)
         {
             activeValue.Index++;
             if(i == sortSet.Count -1 )
@@ -37,9 +32,7 @@ namespace Sorting_Alg_Visualizer.Algorithms
             }
             if(activeValue.Index == sortSet.Count)
             {
-                temp = sortSet[i];
-                sortSet[i] = sortSet[minIndex];
-                sortSet[minIndex] = temp;
+                SwapValues(sortSet, i, minIndex);
 
                 i++;
                 activeValue.Index = i;
