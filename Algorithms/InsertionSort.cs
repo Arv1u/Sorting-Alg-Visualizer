@@ -5,24 +5,27 @@ using System.Collections.ObjectModel;
 
 namespace Sorting_Alg_Visualizer.Algorithms
 {
-    public class InsertionSort : IAlgorithm
+    public class InsertionSort : Algorithm
     {
-        public string Name { get; set; } = "Insertion Sort";
         private int j,i,key,n;
         bool sorting = false;
 
-        public void Reset()
+        public override void Reset()
         {
             i = 0;
             j = 0;
             sorting = false;
         }
 
-        public void Setup(ObservableCollection<int> sortSet)
+        public InsertionSort()
+        {
+            Name = "Insertion Sort";
+        }
+        public override void Setup(ObservableCollection<int> sortSet)
         {
         }
 
-        public bool Step(ObservableCollection<int> arr, ActiveValue activeValue)
+        public override bool Step(ObservableCollection<int> arr, ActiveValue activeValue)
         {
             n = arr.Count;
 

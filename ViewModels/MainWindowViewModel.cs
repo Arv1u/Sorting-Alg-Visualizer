@@ -16,13 +16,17 @@ namespace Sorting_Alg_Visualizer.ViewModels
         public RelayCommand PauseCommand { get; }
         public RelayCommand ResetCommand { get; }
         public ChartVM ChartVM { get; set; }
-        private static int sortLengthDefault = 10;
+        private static readonly int sortLengthDefault = 10;
         public decimal SortLength
         {
             get;
             set
             {
                 field = value;
+                if(SelectedAlgorithm != null)
+                {
+                    ResetAlgorithm();
+                }
                 OnPropertyChanged(nameof(SortLength));
             }
         } = sortLengthDefault;
@@ -39,8 +43,8 @@ namespace Sorting_Alg_Visualizer.ViewModels
                 OnPropertyChanged(nameof(StepsPerSecond));
             }
         } = stepsPerSecondDefault;
-        private IAlgorithm selectedAlgorithm;
-        public IAlgorithm SelectedAlgorithm
+        private Algorithm selectedAlgorithm;
+        public Algorithm SelectedAlgorithm
         {
             get
             {
@@ -71,7 +75,7 @@ namespace Sorting_Alg_Visualizer.ViewModels
                 OnPropertyChanged(nameof(IsRunning));
             }
         }
-        public ObservableCollection<IAlgorithm> Algorithms { get; set; } = new();
+        public ObservableCollection<Algorithm> Algorithms { get; set; } = new();
         private bool isReset = true;
 
         public MainWindowViewModel(CartesianChart barchart)
@@ -86,7 +90,6 @@ namespace Sorting_Alg_Visualizer.ViewModels
             SetupTimer();
             StepsPerSecond = 1;
             SortLength = 10;
-            CreateNewChart((int)SortLength);
             ActiveValue.Index = 0;
             SetupAlgorithms();
         }
@@ -118,7 +121,6 @@ namespace Sorting_Alg_Visualizer.ViewModels
         }
         private void StartAlgorithm()
         {
-
             if (isReset)
             {
                 SelectedAlgorithm.Setup(ChartVM.Values.Elements);
@@ -127,6 +129,7 @@ namespace Sorting_Alg_Visualizer.ViewModels
             }
             IsRunning = true;
         }
+
         private void PauseAlgorithm()
         {
             IsRunning = false;
@@ -149,9 +152,6 @@ namespace Sorting_Alg_Visualizer.ViewModels
         private void UpdateTimerSpeed(int stepsPerSecond)
         {
             stepsTimer.Interval = TimeSpan.FromMilliseconds(1000.0 / stepsPerSecond);
-        }
-        private void CreateNewChart(int length)
-        {
         }
 
         private void SetupAlgorithms()

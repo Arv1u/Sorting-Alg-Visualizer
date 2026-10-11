@@ -10,12 +10,12 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Sorting_Alg_Visualizer.MainWindow"
         x:DataType="VM:MainWindowViewModel"
-        Title="Sorting-Alg-Visualizer"
+        Title="Sorting Algorithm Visualizer"
         >
     <Grid ColumnDefinitions="15*, 85*"
           RowDefinitions="15*, 85*">
         <StackPanel Grid.RowSpan="2"
-                    Background="Blue">
+>
         </StackPanel>
         <StackPanel Orientation="Horizontal"
                     Grid.Column="1"
@@ -39,7 +39,7 @@
                     VerticalAlignment="Center">
             </Slider> 
             </StackPanel>
-            <NumericUpDown Minimum="1" 
+            <NumericUpDown Minimum="2" 
                            Maximum="1000"
                            Margin="20"
                            Value="{Binding SortLength, 
