@@ -24,7 +24,9 @@ namespace Sorting_Alg_Visualizer.ViewModels
             {
                 field = value;
                 if(SelectedAlgorithm != null)
-                ResetAlgorithm();
+                {
+                    ResetAlgorithm();
+                }
                 OnPropertyChanged(nameof(SortLength));
             }
         } = sortLengthDefault;
